@@ -27,7 +27,7 @@ export class UserService {
       return await this.userRepository.save(newUser);
     } catch (e) {
       if (e instanceof Error && 'code' in e && e.code === 'ER_DUP_ENTRY') {
-        throw new ConflictException('Existing email');
+        throw new ConflictException('Existing User');
       }
 
       throw new InternalServerErrorException();
