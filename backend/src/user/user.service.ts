@@ -38,6 +38,10 @@ export class UserService {
     return await this.userRepository.findOne({ where: { id } });
   }
 
+  async findOneByEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email } });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {
       const salt = await bcrypt.genSalt();
