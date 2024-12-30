@@ -25,8 +25,17 @@ export class AuthController {
   }
 
   @UseGuards(LocalAuthGuard)
-  @Post('auth/logout')
+  @Post('logout')
   async logout(@Request() req) {
     return req.logout();
+  }
+
+  @Post('refresh')
+  async refresh(@Body('refresh_token') refreshToken: string) {
+    const userId = await this.authService.validateRefreshToken(refreshToken);
+
+    const newAccessToken = await this.authService.generateAccessToken(userId);
+
+    return { access_token: newAccessToken };
   }
 }
