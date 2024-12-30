@@ -3,6 +3,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Cache } from 'cache-manager';
+import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -24,9 +25,9 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const accessToken = await this.generateAccessToken(user.id);
-    const refreshToken = await this.generateRefreshToken(user.id);
+  async login(user: User) {
+    const accessToken = await this.generateAccessToken(user);
+    const refreshToken = await this.generateRefreshToken(user);
 
     return {
       access_token: accessToken,
@@ -34,24 +35,24 @@ export class AuthService {
     };
   }
 
-  async generateAccessToken(userId: string): Promise<string> {
-    const payload = { sub: userId };
+  async generateAccessToken(user: User): Promise<string> {
+    const payload = { sub: user.id, email: user.email };
 
     return this.jwtService.sign(payload, { expiresIn: '1h' });
   }
 
-  async generateRefreshToken(userId: string): Promise<string> {
-    const payload = { sub: userId, tokenType: 'refresh' };
+  async generateRefreshToken(user: User): Promise<string> {
+    const payload = { sub: user.id, email: user.email, tokenType: 'refresh' };
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '2h' });
 
-    await this.cacheManager.set(`user:${userId}:refresh_token`, refreshToken, {
+    await this.cacheManager.set(`user:${user.id}:refresh_token`, refreshToken, {
       ttl: 2 * 60 * 60,
     });
 
     return refreshToken;
   }
 
-  async validateRefreshToken(refreshToken: string): Promise<string | null> {
+  async validateRefreshToken(refreshToken: string): Promise<number | null> {
     const decoded = this.jwtService.verify(refreshToken);
     const userId = decoded?.sub;
 

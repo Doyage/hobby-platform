@@ -7,13 +7,17 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
@@ -33,8 +37,8 @@ export class AuthController {
   @Post('refresh')
   async refresh(@Body('refresh_token') refreshToken: string) {
     const userId = await this.authService.validateRefreshToken(refreshToken);
-
-    const newAccessToken = await this.authService.generateAccessToken(userId);
+    const user = await this.userService.findOne(userId);
+    const newAccessToken = await this.authService.generateAccessToken(user);
 
     return { access_token: newAccessToken };
   }
