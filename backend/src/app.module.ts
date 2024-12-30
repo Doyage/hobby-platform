@@ -11,6 +11,7 @@ import { AuthService } from './auth/auth.service';
 import { jwtConstants } from './auth/constants';
 import dataSource from './config/dataSource';
 import { UserModule } from './user/user.module';
+import { HobbyModule } from './hobby/hobby.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
     AuthModule,
+    HobbyModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
