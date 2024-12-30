@@ -1,7 +1,9 @@
+import { Hobby } from 'src/hobby/entities/hobby.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,4 +24,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Hobby, (hobby) => hobby.author)
+  hobbies: Hobby[];
 }
