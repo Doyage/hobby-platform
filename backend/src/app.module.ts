@@ -9,9 +9,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { jwtConstants } from './auth/constants';
+import { ChatModule } from './chat/chat.module';
 import dataSource from './config/dataSource';
-import { UserModule } from './user/user.module';
 import { HobbyModule } from './hobby/hobby.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { HobbyModule } from './hobby/hobby.module';
     UserModule,
     AuthModule,
     HobbyModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],

@@ -1,9 +1,11 @@
+import { Chat } from 'src/chat/entities/chat.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -27,4 +29,7 @@ export class Hobby {
 
   @ManyToOne(() => User, (user) => user.hobbies)
   author: User;
+
+  @OneToMany(() => Chat, (chatMessage) => chatMessage.hobby)
+  chat: Chat[];
 }
