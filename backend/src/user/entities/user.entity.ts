@@ -1,3 +1,4 @@
+import { Chat } from 'src/chat/entities/chat.entity';
 import { Hobby } from 'src/hobby/entities/hobby.entity';
 import {
   Column,
@@ -27,4 +28,7 @@ export class User {
 
   @OneToMany(() => Hobby, (hobby) => hobby.author)
   hobbies: Hobby[];
+
+  @OneToMany(() => Chat, (chatMessage) => chatMessage.hobby)
+  chat: Chat[];
 }
