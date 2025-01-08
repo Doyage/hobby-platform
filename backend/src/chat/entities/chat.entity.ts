@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -20,8 +21,10 @@ export class Chat {
   createdAt: Date;
 
   @ManyToOne(() => Hobby, (hobby) => hobby.chat)
+  @Index()
   hobby: Hobby;
 
   @ManyToOne(() => User, (user) => user.chat)
+  @Index()
   author: User;
 }
