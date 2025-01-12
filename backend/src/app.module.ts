@@ -12,6 +12,7 @@ import { jwtConstants } from './auth/constants';
 import { ChatModule } from './chat/chat.module';
 import dataSource from './config/dataSource';
 import { HobbyModule } from './hobby/hobby.module';
+import { SignalingModule } from './signaling/signaling.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -42,6 +43,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     HobbyModule,
     ChatModule,
+    SignalingModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
