@@ -51,8 +51,8 @@
    - [x] JWT 기반 사용자 인증 구현  
    - [x] 실시간 채팅 기능 (Socket.IO) 구현  
    - [x] Signaling Server 기능구현
-   - [ ] Redis를 이용해서 Room 관리
    - [x] Chat 기능에 Message Queue 적용
+   - [ ] Redis를 이용해서 Room 관리
    - [ ] Elastic Search를 이용한 검색기능 구현
 
 2. **프론트엔드**  
