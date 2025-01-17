@@ -58,6 +58,8 @@ export class ChatGateway
     @MessageBody() roomId: string,
     @ConnectedSocket() client: Socket,
   ): void {
+    console.log(`Client ${client.id} join room: ${roomId}`);
+
     client.join(roomId);
   }
 
@@ -66,7 +68,8 @@ export class ChatGateway
     @MessageBody() roomId: string,
     @ConnectedSocket() client: Socket,
   ): void {
-    client.leave(roomId);
     console.log(`Client ${client.id} left room: ${roomId}`);
+
+    client.leave(roomId);
   }
 }
