@@ -5,6 +5,7 @@ import { Cache } from 'cache-manager';
 import { Hobby } from 'src/hobby/entities/hobby.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
+import { ChatQueue } from './chat.queue';
 import { Chat } from './entities/chat.entity';
 
 @Injectable()
@@ -15,6 +16,7 @@ export class ChatService {
     @InjectRepository(Hobby)
     private readonly hobbyRepository: Repository<Hobby>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly chatQueue: ChatQueue,
   ) {}
 
   private isFiveMinutesPassed(
@@ -48,7 +50,7 @@ export class ChatService {
       cachedMessages.length >= 5 ||
       this.isFiveMinutesPassed(cachedMessages[0]?.timestamp, timestamp)
     ) {
-      await this.flushRedisToDatabase(roomId);
+      await this.chatQueue.addFlushTask(roomId);
       cachedMessages = [];
     }
   }
